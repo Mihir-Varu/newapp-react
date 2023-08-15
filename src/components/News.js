@@ -6,7 +6,8 @@ export class News extends Component {
     super();
     this.state = {
       articles : [],
-      loading : false
+      loading : false,
+      page : 1
     };
   }
 
@@ -19,11 +20,19 @@ export class News extends Component {
     this.setState({articles : parsedData.articles})
   }
 
+  handlePrevClick = () =>{
+    console.log("previos")
+  }
+
+  handleNextClick = () =>{
+    console.log("next")
+  }
+
   render() {
     return (
       <div className='container my-3'>
-            <h1 className='my-4'>NewsApp - Top Headlines :</h1>
-            <div className="row">
+          <h1 className='my-4'>NewsApp - Top Headlines :</h1>
+          <div className="row">
             {this.state.articles.map((element)=>{
               return(
                 <div className="col-md-4" key={element.url}>
@@ -31,7 +40,11 @@ export class News extends Component {
                 </div>
               );
             })}
-            </div>
+          </div>
+          <div className='container d-flex justify-content-between mt-5'>
+          <button type="button" class="btn btn-dark" onClick={this.handlePrevClick}>&larr; Previous</button>
+          <button type="button" class="btn btn-dark" onClick={this.handleNextClick}>Next &rarr;</button>
+          </div>
       </div>
     )
   }
