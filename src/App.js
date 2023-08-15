@@ -7,7 +7,8 @@ import News from './components/News';
 export default class App extends Component {
   render() {
     return (
-      <div>
+      <div>/
+        <h1>Today's Date is : 15/08/2023 </h1>
         <NavBar />
         <News />
       </div>
