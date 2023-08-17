@@ -8,6 +8,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
+        {/* Today's Date : 17/08/2023 */}
         <NavBar />
         <News />
       </div>
