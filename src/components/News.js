@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
+import Sinners from './Sinners';
 
 export class News extends Component {
   constructor(){
@@ -14,34 +15,39 @@ export class News extends Component {
   async componentDidMount(){
     console.log("cdm");
     let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=f915273ce929437a88caa1529c53ad76&page=1&pageSize=${this.props.pageSize}`;
+    this.setState({loading : true});
     let data = await fetch(url);
     let parsedData = await data.json();
     console.log(parsedData);
-    this.setState({articles : parsedData.articles, totalResults : parsedData.totalResults})
+    this.setState({
+      articles : parsedData.articles, 
+      totalResults : parsedData.totalResults, 
+      loading : false})
   }
 
   handlePrevClick = async () =>{
     console.log("previos")
 
     let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=f915273ce929437a88caa1529c53ad76&page=${this.state.page - 1}&pageSize=${this.props.pageSize}`;
+    this.setState({loading : true});
     let data = await fetch(url);
     let parsedData = await data.json();
     console.log(parsedData);
     this.setState({
       page : this.state.page - 1,
-      articles : parsedData.articles
+      articles : parsedData.articles,
+      loading : false
     })
   }
 
   handleNextClick = async () =>{
     console.log("next");
-    if(this.state.page + 1 > Math.ceil(this.state.totalResults/this.props.pageSize)){
-    }
-    else{
+    if(!(this.state.page + 1 > Math.ceil(this.state.totalResults/this.props.pageSize))){
       let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=f915273ce929437a88caa1529c53ad76&page=${this.state.page + 1}&pageSize=${this.props.pageSize}`;
+      this.setState({loading : true});
       let data = await fetch(url);
       let parsedData = await data.json();
-      console.log(parsedData);
+      this.setState({loading : false})
       this.setState({
         page : this.state.page + 1,
         articles : parsedData.articles
@@ -53,8 +59,11 @@ export class News extends Component {
     return (
       <div className='container my-3'>
           <h1 className='my-5 text-center'>NewsApp - Top Headlines</h1>
+          {this.state.loading && <Sinners style={{
+            width: "20px"
+          }} />}
           <div className="row">
-            {this.state.articles.map((element)=>{
+            {!this.state.loading && this.state.articles.map((element)=>{
               return(
                 <div className="col-md-4" key={element.url}>
                 <NewsItem title={element.title?element.title:""} description={element.description?element.description:""} imageUrl={element.urlToImage} newsUrl={element.url} />

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import loading from './loadimg.gif'
 
-export default class spinner extends Component {
+export default class Sinners extends Component {
   render() {
     return (
-      <div>
+      <div className='text-center'>
         <img src={loading} alt="loading" />
       </div>
     )
